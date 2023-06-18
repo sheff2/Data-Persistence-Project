@@ -11,6 +11,8 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
+
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -40,6 +42,9 @@ public class MainManager : MonoBehaviour
 
     private void Update()
     {
+        HighScoreText.text = "Best Score:"  + PlayerPrefs.GetString("HighName") + " " + PlayerPrefs.GetInt("Highscore");
+
+
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -55,6 +60,13 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            
+
+            if(m_Points > PlayerPrefs.GetInt("Highscore")){
+                PlayerPrefs.SetInt("Highscore",m_Points);
+                PlayerPrefs.SetString("HighName", PlayerPrefs.GetString("Current"));
+
+            }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
